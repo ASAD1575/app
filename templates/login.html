@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Google Fonts: Inter for a clean, modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Base styles for the body */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font */
+            background: linear-gradient(135deg, #e0f2f7, #c1e4f7); /* Light blue gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Use min-height to ensure it covers full viewport */
+            margin: 0;
+            padding: 20px; /* Add some padding for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        /* Main wrapper for the two-column layout */
+        .main-wrapper {
+            display: flex;
+            background: #fff;
+            border-radius: 20px; /* More rounded corners for the main container */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1); /* Softer, larger shadow */
+            overflow: hidden; /* Ensures rounded corners clip content */
+            width: 100%;
+            max-width: 1000px; /* Max width for the entire component */
+            min-height: 600px; /* Minimum height to accommodate content */
+        }
+
+        /* Left panel for the login form */
+        .login-panel {
+            flex: 1; /* Takes up available space */
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            text-align: center;
+            min-width: 350px; /* Ensure login panel has a minimum width */
+        }
+
+        /* Header section with logo and text */
+        .header-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px; /* Increased margin */
+            color: #333;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .header-section .logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px; /* Rounded corners for logo placeholder */
+            background-color: #667eea; /* Example background for logo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        /* Graduate service section */
+        .graduate-service {
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2); /* Gradient for avatar circle */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .avatar-circle i {
+            color: white;
+            font-size: 3em;
+        }
+
+        .graduate-service h2 {
+            color: #333;
+            font-size: 1.4em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* Form styling */
+        form {
+            width: 100%;
+            max-width: 320px; /* Max width for the form elements */
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px; /* Increased margin */
+            border: 1px solid #e0e0e0; /* Lighter border */
+            border-radius: 10px; /* More rounded input fields */
+            padding: 10px 15px;
+            background-color: #f9f9f9; /* Slightly off-white background for inputs */
+            transition: all 0.2s ease;
+        }
+
+        .input-group:focus-within {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2); /* Soft focus shadow */
+            background-color: #fff;
+        }
+
+        .input-group i {
+            color: #999;
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+
+        .input-group input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 5px 0;
+            font-size: 1em;
+            background-color: transparent; /* Transparent background for input */
+            color: #333;
+        }
+
+        .input-group input::placeholder {
+            color: #aaa;
+        }
+
+        /* Error message styling */
+        .error {
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            text-align: left; /* Align error text to left */
+            width: 100%;
+            max-width: 320px;
+        }
+
+        /* Button and link container */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            gap: 15px; /* Gap between items */
+        }
+
+        /* Button styling */
+        .login-button {
+            background: linear-gradient(45deg, #667eea, #764ba2); /* Gradient button */
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px; /* More rounded button */
+            cursor: pointer;
+            flex: 1; /* Allow button to grow */
+            min-width: 120px; /* Minimum width for button */
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); /* Button shadow */
+        }
+
+        .login-button:hover {
+            background: linear-gradient(45deg, #5563c1, #6a4192);
+            box-shadow: 0 7px 20px rgba(102, 126, 234, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Links styling */
+        .forgot-password {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.2s ease;
+            white-space: nowrap; /* Prevent wrapping for the link */
+        }
+
+        .forgot-password:hover {
+            color: #5563c1;
+            text-decoration: underline;
+        }
+
+        /* Create Account Button */
+        .create-account-button {
+            background: none; /* No background */
+            border: 2px solid #667eea; /* Border matching primary color */
+            color: #667eea; /* Text color matching primary color */
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%; /* Full width */
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 20px; /* Space above this button */
+        }
+
+        .create-account-button:hover {
+            background: #667eea; /* Fill background on hover */
+            color: white; /* White text on hover */
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Right panel for illustration */
+        .illustration-panel {
+            flex: 1; /* Takes up available space */
+            background: linear-gradient(135deg, #a7d9f7, #66aaff); /* Blue gradient for illustration panel */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0; /* Removed padding to allow image to fill fully */
+            position: relative;
+            overflow: hidden; /* Hide overflow for background patterns */
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        /* Image styling within the illustration panel */
+        .illustration-panel img {
+            width: 100%; /* Make image fill 100% width of its container */
+            height: 100%; /* Make image fill 100% height of its container */
+            border-radius: 15px; /* Rounded corners for the image */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* Shadow for the image */
+            object-fit: cover; /* Crop image to cover the entire container */
+            display: block; /* Remove extra space below image */
+        }
+
+        /* Abstract background patterns (optional, to mimic image complexity) */
+        .illustration-panel::before,
+        .illustration-panel::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            opacity: 0.6;
+            filter: blur(50px);
+            z-index: 0;
+        }
+
+        .illustration-panel::before {
+            width: 250px;
+            height: 250px;
+            top: -50px;
+            left: -50px;
+        }
+
+        .illustration-panel::after {
+            width: 350px;
+            height: 350px;
+            bottom: -80px;
+            right: -80px;
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main-wrapper {
+                flex-direction: column; /* Stack panels vertically on smaller screens */
+                min-height: auto; /* Remove min-height for stacking */
+                max-width: 450px; /* Limit width for single column layout */
+            }
+
+            .login-panel, .illustration-panel {
+                width: 100%; /* Full width for both panels */
+                border-radius: 20px; /* Apply rounded corners to both panels */
+            }
+
+            .illustration-panel {
+                padding: 40px 20px; /* Adjust padding for illustration panel */
+                border-top-right-radius: 0; /* Remove top-right radius when stacked */
+                border-bottom-left-radius: 20px; /* Add bottom-left radius for illustration panel */
+                height: 250px; /* Give a fixed height on small screens if needed */
+            }
+
+            .login-panel {
+                padding: 30px; /* Adjust padding for login panel */
+            }
+
+            .header-section {
+                margin-bottom: 30px;
+            }
+
+            .graduate-service {
+                margin-bottom: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column; /* Stack button and link vertically */
+                align-items: stretch; /* Stretch items to full width */
+            }
+
+            .login-button {
+                width: 100%;
+                min-width: unset; /* Remove min-width constraint */
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .main-wrapper {
+                border-radius: 15px;
+            }
+
+            .login-panel {
+                padding: 25px;
+            }
+
+            .header-section {
+                font-size: 1em;
+                margin-bottom: 25px;
+            }
+
+            .avatar-circle {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 10px;
+            }
+
+            .avatar-circle i {
+                font-size: 2.5em;
+            }
+
+            .graduate-service h2 {
+                font-size: 1.2em;
+            }
+
+            .input-group {
+                padding: 8px 12px;
+                margin-bottom: 15px;
+            }
+
+            .input-group input {
+                font-size: 0.95em;
+            }
+
+            .login-button {
+                padding: 12px;
+                font-size: 1em;
+            }
+
+            .forgot-password {
+                font-size: 0.85em;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="login-panel">
+            <!-- Logo and Title Section -->
+            <div class="header-section">
+                <!-- Placeholder for the logo image -->
+                <img src="https://placehold.co/30x30/667eea/ffffff?text=L" alt="Logo" class="logo">
+                <span>SHANGHAI CONSERVATORY OF MUSIC</span>
+            </div>
+
+            <!-- PDF Service Section -->
+            <div class="graduate-service">
+                <div class="avatar-circle">
+                    <!-- Font Awesome icon for PDF -->
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h2>WELCOME TO PDF</h2>
+            </div>
+
+            <!-- Login Form -->
+            <form action="/login" method="post">
+                <!-- Username Input -->
+                <div class="input-group">
+                    <!-- Font Awesome icon for user -->
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+
+                <!-- Password Input -->
+                <div class="input-group">
+                    <!-- Font Awesome icon for lock -->
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+
+                <!-- Error Message (if any) -->
+                {% if error %}
+                <div class="error">{{ error }}</div>
+                {% endif %}
+
+                <div class="form-actions">
+                    <!-- Login Button -->
+                    <button type="submit" class="login-button">Login</button>
+
+                    <!-- Forgot Password Link -->
+                    <a href="/forgot_password" class="forgot-password">Forget Password?</a>
+                </div>
+
+                <!-- Create Account Button -->
+                <button type="button" class="create-account-button" onclick="location.href='/register'">Create an account</button>
+            </form>
+        </div>
+
+        <!-- Right Panel for Illustration -->
+        <div class="illustration-panel">
+            <!-- Image for the illustration panel -->
+            <img src="https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0" alt="Login Illustration">
+        </div>
+    </div>
+</body>
+</html>

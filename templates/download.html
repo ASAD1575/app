@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download PDF</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #c3cfe2, #e2ebf0); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); max-width: 400px; width: 100%; text-align: center; }
+        a { text-decoration: none; color: white; background: #4CAF50; padding: 10px 20px; border-radius: 8px; }
+        a:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your PDF is ready!</h2>
+        <a href="{{ file_url }}" download>Download PDF</a>
+        <br><br>
+        <a href="/dashboard">Back to Dashboard</a>
+    </div>
+</body>
+</html>

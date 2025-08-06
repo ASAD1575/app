@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PDF Converter</title>
+    <!-- Google Fonts: Inter for a clean, modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Base styles for the body */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font */
+            background: linear-gradient(135deg, #e0f2f7, #c1e4f7); /* Light blue gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Use min-height to ensure it covers full viewport */
+            margin: 0;
+            padding: 20px; /* Add some padding for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        /* Main wrapper for the two-column layout */
+        .main-wrapper {
+            display: flex;
+            background: #fff;
+            border-radius: 20px; /* More rounded corners for the main container */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1); /* Softer, larger shadow */
+            overflow: hidden; /* Ensures rounded corners clip content */
+            width: 100%;
+            max-width: 1000px; /* Max width for the entire component */
+            min-height: 600px; /* Minimum height to accommodate content */
+        }
+
+        /* Left panel for the form */
+        .form-panel {
+            flex: 1; /* Takes up available space */
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            text-align: center;
+            min-width: 350px; /* Ensure panel has a minimum width */
+        }
+
+        /* Header section with logo and text */
+        .header-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px; /* Increased margin */
+            color: #333;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .header-section .logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px; /* Rounded corners for logo placeholder */
+            background-color: #667eea; /* Example background for logo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        /* Service section (PDF or similar) */
+        .service-section {
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2); /* Gradient for avatar circle */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .avatar-circle i {
+            color: white;
+            font-size: 3em;
+        }
+
+        .service-section h2 {
+            color: #333;
+            font-size: 1.4em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* Dashboard specific styling */
+        .welcome-message {
+            color: #333;
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 320px; /* Max width for the form elements */
+        }
+
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            color: #333;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        input[type="file"]::-webkit-file-upload-button {
+            visibility: hidden;
+            width: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        input[type="file"]::before {
+            content: 'Choose File';
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]:hover::before {
+            background: linear-gradient(45deg, #5563c1, #6a4192);
+        }
+
+        input[type="file"]:active::before {
+            background: #4a56a6;
+        }
+
+        .convert-button {
+            background: linear-gradient(45deg, #667eea, #764ba2); /* Gradient button */
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px; /* More rounded button */
+            cursor: pointer;
+            width: 100%; /* Full width */
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); /* Button shadow */
+            margin-top: 10px;
+        }
+
+        .convert-button:hover {
+            background: linear-gradient(45deg, #5563c1, #6a4192);
+            box-shadow: 0 7px 20px rgba(102, 126, 234, 0.6);
+            transform: translateY(-2px);
+        }
+
+        #progress {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 320px;
+            display: none; /* Hidden by default */
+            text-align: left;
+        }
+
+        #progress p {
+            color: #555;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+
+        progress {
+            width: 100%;
+            height: 15px;
+            border-radius: 8px;
+            overflow: hidden; /* Ensures the progress bar fills the rounded corners */
+            background-color: #e0e0e0; /* Background for empty part of progress bar */
+            border: none;
+        }
+
+        progress::-webkit-progress-bar {
+            background-color: #e0e0e0;
+            border-radius: 8px;
+        }
+
+        progress::-webkit-progress-value {
+            background: linear-gradient(45deg, #4facfe, #00c6ff); /* Gradient for progress value */
+            border-radius: 8px;
+            transition: width 0.3s ease;
+        }
+
+        progress::-moz-progress-bar {
+            background: linear-gradient(45deg, #4facfe, #00c6ff);
+            border-radius: 8px;
+        }
+
+        #download {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 320px;
+            display: none; /* Hidden by default */
+        }
+
+        #download a {
+            background: linear-gradient(45deg, #43e97b, #38d169); /* Green gradient for download button */
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1em;
+            display: inline-block; /* Allows padding and margin */
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
+        }
+
+        #download a:hover {
+            background: linear-gradient(45deg, #38d169, #2ca957);
+            box-shadow: 0 7px 20px rgba(67, 233, 123, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Right panel for illustration */
+        .illustration-panel {
+            flex: 1; /* Takes up available space */
+            background: linear-gradient(135deg, #a7d9f7, #66aaff); /* Blue gradient for illustration panel */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0; /* Remove padding to allow image to fill fully */
+            position: relative;
+            overflow: hidden; /* Hide overflow for background patterns */
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        /* Image styling within the illustration panel */
+        .illustration-panel img {
+            width: 100%; /* Make image fill 100% width of its container */
+            height: 100%; /* Make image fill 100% height of its container */
+            border-radius: 15px; /* Rounded corners for the image */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* Shadow for the image */
+            object-fit: cover; /* Crop image to cover the entire container */
+            display: block; /* Remove extra space below image */
+        }
+
+        /* Abstract background patterns (optional, to mimic image complexity) */
+        .illustration-panel::before,
+        .illustration-panel::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            opacity: 0.6;
+            filter: blur(50px);
+            z-index: 0;
+        }
+
+        .illustration-panel::before {
+            width: 250px;
+            height: 250px;
+            top: -50px;
+            left: -50px;
+        }
+
+        .illustration-panel::after {
+            width: 350px;
+            height: 350px;
+            bottom: -80px;
+            right: -80px;
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main-wrapper {
+                flex-direction: column; /* Stack panels vertically on smaller screens */
+                min-height: auto; /* Remove min-height for stacking */
+                max-width: 450px; /* Limit width for single column layout */
+            }
+
+            .form-panel, .illustration-panel {
+                width: 100%; /* Full width for both panels */
+                border-radius: 20px; /* Apply rounded corners to both panels */
+            }
+
+            .illustration-panel {
+                padding: 40px 20px; /* Adjust padding for illustration panel */
+                border-top-right-radius: 0; /* Remove top-right radius when stacked */
+                border-bottom-left-radius: 20px; /* Add bottom-left radius for illustration panel */
+                height: 250px; /* Give a fixed height on small screens if needed */
+            }
+
+            .form-panel {
+                padding: 30px; /* Adjust padding for form panel */
+            }
+
+            .header-section {
+                margin-bottom: 30px;
+            }
+
+            .service-section {
+                margin-bottom: 20px;
+            }
+
+            .welcome-message {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+
+            input[type="file"] {
+                padding: 10px;
+            }
+
+            input[type="file"]::before {
+                padding: 8px 12px;
+                font-size: 0.85em;
+            }
+
+            .convert-button {
+                padding: 12px;
+                font-size: 1em;
+            }
+
+            #progress {
+                margin-top: 20px;
+            }
+
+            #download {
+                margin-top: 20px;
+            }
+
+            #download a {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .main-wrapper {
+                border-radius: 15px;
+            }
+
+            .form-panel {
+                padding: 25px;
+            }
+
+            .header-section {
+                font-size: 1em;
+                margin-bottom: 25px;
+            }
+
+            .avatar-circle {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 10px;
+            }
+
+            .avatar-circle i {
+                font-size: 2.5em;
+            }
+
+            .service-section h2 {
+                font-size: 1.2em;
+            }
+
+            .welcome-message {
+                font-size: 1.3em;
+            }
+
+            input[type="file"] {
+                margin: 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="form-panel">
+            <!-- Logo and Title Section -->
+            <div class="header-section">
+                <!-- Placeholder for the logo image -->
+                <img src="https://placehold.co/30x30/667eea/ffffff?text=L" alt="Logo" class="logo">
+                <span>SHANGHAI CONSERVATORY OF MUSIC</span>
+            </div>
+
+            <!-- Service Section -->
+            <div class="service-section">
+                <div class="avatar-circle">
+                    <!-- Font Awesome icon for PDF -->
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h2>PDF CONVERTER</h2>
+            </div>
+
+            <!-- Welcome Message -->
+            <h1 class="welcome-message">Welcome, {{ user.username }}</h1>
+
+            <!-- Upload Form -->
+            <form id="uploadForm">
+                <input type="file" name="file" accept=".docx" required>
+                <button id="convertBtn" type="submit" class="convert-button">Convert to PDF</button>
+            </form>
+
+            <!-- Progress Section -->
+            <div id="progress">
+                <p>Converting your file...</p>
+                <progress max="100" value="0"></progress> <!-- Initial value 0 -->
+            </div>
+
+            <!-- Download Section -->
+            <div id="download">
+                <a id="downloadLink" href="#">Download PDF</a>
+            </div>
+        </div>
+
+        <!-- Right Panel for Illustration -->
+        <div class="illustration-panel">
+            <!-- Image for the illustration panel -->
+            <img src="https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0" alt="Dashboard Illustration">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+
+            const progressDiv = document.getElementById("progress");
+            const convertBtn = document.getElementById("convertBtn");
+            const downloadDiv = document.getElementById("download");
+            const downloadLink = document.getElementById("downloadLink");
+            const progressBar = progressDiv.querySelector('progress');
+
+            // Show progress, hide convert button and download link
+            progressDiv.style.display = "block";
+            convertBtn.style.display = "none";
+            downloadDiv.style.display = "none";
+            progressBar.value = 0; // Reset progress bar
+
+            try {
+                // Simulate file upload and conversion progress
+                let progressValue = 0;
+                const interval = setInterval(() => {
+                    if (progressValue < 90) { // Simulate progress up to 90%
+                        progressValue += 10;
+                        progressBar.value = progressValue;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 300); // Update every 300ms
+
+                const res = await fetch("/convert", { method: "POST", body: formData });
+                const data = await res.json();
+
+                clearInterval(interval); // Clear interval once fetch is complete
+                progressBar.value = 100; // Set progress to 100%
+
+                progressDiv.style.display = "none"; // Hide progress bar
+
+                if (data.status === "completed") {
+                    downloadLink.href = `/download/${data.file_id}`;
+                    downloadDiv.style.display = "block"; // Show download link
+                } else {
+                    // Use a custom message box instead of alert()
+                    const messageBox = document.createElement('div');
+                    messageBox.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background-color: white;
+                        padding: 20px;
+                        border-radius: 10px;
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                        z-index: 1000;
+                        text-align: center;
+                        color: #e74c3c;
+                        font-weight: bold;
+                    `;
+                    messageBox.innerHTML = `
+                        <p>Conversion failed. Please try again.</p>
+                        <button onclick="this.parentNode.remove()" style="
+                            background-color: #667eea;
+                            color: white;
+                            border: none;
+                            padding: 8px 15px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            margin-top: 10px;
+                        ">OK</button>
+                    `;
+                    document.body.appendChild(messageBox);
+                    convertBtn.style.display = "inline-block"; // Show convert button again
+                }
+            } catch (error) {
+                clearInterval(interval); // Ensure interval is cleared on error
+                progressDiv.style.display = "none";
+                // Use a custom message box for network errors
+                const messageBox = document.createElement('div');
+                messageBox.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background-color: white;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                    z-index: 1000;
+                    text-align: center;
+                    color: #e74c3c;
+                    font-weight: bold;
+                `;
+                messageBox.innerHTML = `
+                    <p>An error occurred: ${error.message}. Please try again.</p>
+                    <button onclick="this.parentNode.remove()" style="
+                        background-color: #667eea;
+                        color: white;
+                        border: none;
+                        padding: 8px 15px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        margin-top: 10px;
+                    ">OK</button>
+                `;
+                document.body.appendChild(messageBox);
+                convertBtn.style.display = "inline-block"; // Show convert button again
+            }
+        });
+    </script>
+</body>
+</html>
